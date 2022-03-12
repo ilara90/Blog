@@ -1,0 +1,33 @@
+﻿@using Blog.Models.Views
+@model CreateViewModel
+
+@{
+    ViewData["Title"] = "Create Article";
+}
+
+<form asp-action="Create" asp-controller="Administration" method="post" enctype="multipart/form-data">
+    <label>Name article</label>
+    <br />
+    <input type="text" class="form-control" name="title" placeholder="Name article">
+    <br />
+    <label>Short Description article</label>
+    <br />
+    <textarea rows="2" cols="20" placeholder="Short Description article (max length 250 symbol)" name="description" maxlength="250" class="form-control"></textarea>
+    <br />
+    <label>Text article</label>
+    <br />
+    <textarea rows="15" cols="20" placeholder="Text article" name="content" class="form-control"></textarea>
+    <br />
+    <label>Select a category</label>
+    <br />
+    @Html.DropDownList("CategoryId", @Model.Categories, "Select a category")
+    <br />
+    <label>Select a tag</label>
+    <br />
+    @Html.ListBoxFor(x => x.TagIds, Model.Tags)
+    <br />
+    <label>Upload an image</label>
+    <input type="file" name="ImageFile" value="Upload" class="btn btn-primary" />
+    <br />
+    <input type="submit" value="Add" class="btn btn-primary" />
+</form>

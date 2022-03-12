@@ -1,0 +1,13 @@
+﻿@{
+    ViewData["Title"] = "Create Tag";
+}
+
+@using (Html.BeginForm("CreateTag", "Administration", FormMethod.Post))
+{
+    <label for="title">Name tag</label>
+    <br />
+    <input type="text" class="form-control" name="title" placeholder="Name tag">
+    <br />
+    <input type="submit" value="Add" class="btn btn-primary" />
+}
+

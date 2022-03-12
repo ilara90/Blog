@@ -1,0 +1,45 @@
+﻿@using Blog.Models.Views
+@model EditViewModel
+
+@{
+    ViewData["Title"] = "Edit Article";
+}
+
+<form asp-action="Edit" asp-controller="Administration" method="post" enctype="multipart/form-data">
+    @Html.HiddenFor(x => x.DateTime)
+    <b>
+        <label for="title">Name article</label>
+    </b>
+    <br />
+    <input type="text" class="form-control" name="title" value="@Model.Title">
+    <br />
+    <b>
+        <label for="title">Short Description article</label>
+    </b>
+    <br />
+    <textarea rows="2" cols="20" placeholder="Short Description article (max length 250 symbol)" name="description" maxlength="250" class="form-control">@Model.Description</textarea>
+    <br />
+    <b>
+        <label for="title">Text article</label>
+    </b>
+    <br />
+    <textarea rows="15" cols="20" placeholder="Text article" name="content" class="form-control">@Model.Content</textarea>
+    <br />
+    <b>
+        <label for="title">Select a category</label>
+    </b>
+    <br />
+    @Html.DropDownListFor(x => x.CategoryId, Model.Categories)
+    <br />
+    <b>
+        <label for="title">Select a tag</label>
+    </b>
+    <br />
+    @Html.ListBoxFor(x => x.TagIds, Model.Tags)
+    <br />
+    <label>Replace the image</label>
+    <input type="file" name="ImageFile" value="Upload" class="btn btn-primary" />
+    <br />
+    <br />
+    <input type="submit" value="Save" class="btn btn-primary" />
+</form>

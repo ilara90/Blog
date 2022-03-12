@@ -1,0 +1,12 @@
+﻿@{
+    ViewData["Title"] = "Create Category";
+}
+
+@using (Html.BeginForm("CreateCategory", "Administration", FormMethod.Post))
+{
+    <label for="title">Name category</label>
+    <br />
+    <input type="text" class="form-control" name="title" placeholder="Name category">
+    <br />
+    <input type="submit" value="Add" class="btn btn-primary" />
+}

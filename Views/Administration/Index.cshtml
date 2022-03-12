@@ -1,0 +1,67 @@
+﻿@using Blog.Models.Views
+@model IndexViewModel
+@addTagHelper *, Blog
+@{
+    ViewData["Title"] = "Administration Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome, My blog</h1>
+    <div class="container">
+        <form asp-controller="Administration" asp-action="Index" method="get">
+            <label><b>Filter:</b></label>
+            <label>Category:</label>
+            @Html.DropDownList("category", @Model.Categories, "All")
+            <label for="inputDate">Date:</label>
+            <label>From</label>
+            <input name="dateFrom" type="date" value="@Model.FilterViewModel.SelectedDateFromString">
+            <label>to</label>
+            <input name="dateTo" type="date" value="@Model.FilterViewModel.SelectedDateToString">
+            <label>Tags:</label>
+            @Html.ListBoxFor(x => x.TagIds, Model.Tags)
+            <input type="submit" value="Filter" class="btn btn-primary" />
+        </form>
+        <br />
+        <div class="row">
+            @foreach (Article article in @Model.Articles)
+            {
+                <div class="col-md-6">
+                    <div class="card mx-auto mb-4 border-primary" style="max-width: 300px;">
+                        @if (@article.Category.IsDeleted == 0)
+                        {
+                            <h4 class="card-header bg-primary text-white">@article.Category.Title</h4>
+                        }
+                        else
+                        {
+                            <h4 class="card-header bg-primary text-white">Without category</h4>
+                        }
+                        <div class="card-body">
+                            <h4 class="card-title">@article.Title</h4>
+                            @if (@article.Image != null)
+                            {
+                                <img style='width:180px; height:160px;' src="data:image/jpeg;base64,@(Convert.ToBase64String(article.Image))" />
+                            }
+                            <p class="card-text">@article.Description</p>
+                            <label>Date of publication:</label>
+                            <p>@article.DateTime</p>
+                            <a href="@Url.Action("Details","Home", new { id = @article.Id })" class="btn btn-primary">View</a>
+                            <a href="@Url.Action("Edit","Administration", new { id = @article.Id })" class="btn btn-primary">Edit</a>
+                            <a href="@Url.Action("Delete","Administration", new { id = @article.Id} )" class="btn btn-primary">Delete</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        <page-link page-model="Model.PageViewModel" page-action="Index"
+                   page-url-category="@(Model.FilterViewModel.SelectedCategory)"
+                   page-url-dateFrom="@(Model.FilterViewModel.SelectedDateFrom)"
+                   page-url-dateTo="@(Model.FilterViewModel.SelectedDateTo)"
+                   page-url-tagIds="@(Model.FilterViewModel.SelectedTagIds)"></page-link>
+        <br />
+        <div>
+            <a href="@Url.Action("Create","Administration")" class="btn btn-primary">Create article</a>
+            <a href="@Url.Action("ActionCategories","Administration")" class="btn btn-primary">Actions with categories</a>
+            <a href="@Url.Action("ActionTags","Administration")" class="btn btn-primary">Actions with tags</a>
+        </div>
+    </div>
+</div>

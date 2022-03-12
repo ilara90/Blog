@@ -1,0 +1,33 @@
+﻿@model IEnumerable<Category>
+
+@{
+    ViewData["Title"] = "Categories";
+}
+
+<div class="container">
+    <table class="table table-hover table-bordered">
+        <thead>
+            <tr class="bg-primary">
+                <th scope="col">id</th>
+                <th scope="col">Title</th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Category category in @Model)
+            {
+                @if (@category.IsDeleted == 0)
+                {
+                    <tr>
+                        <td>@category.Id</td>
+                        <td>@category.Title</td>
+                        <td><a href="@Url.Action("EditCategory","Administration", new { id = @category.Id })" class="btn btn-primary">Edit</a></td>
+                        <td><a href="@Url.Action("DeleteCategory","Administration", new { id = @category.Id })" class="btn btn-primary">Delete</a></td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+    <a href="@Url.Action("CreateCategory","Administration")" class="btn btn-primary">Create</a>
+</div>

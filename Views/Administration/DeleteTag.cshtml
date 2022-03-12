@@ -1,0 +1,17 @@
+﻿@model Tag
+@{
+    ViewData["Title"] = "Delete Tag";
+}
+
+<div>
+    <h2>
+        Are you sure you need to delete a tag?
+    </h2>
+    <h4>
+        @Model.Title
+    </h4>
+</div>
+@using (Html.BeginForm("DeleteTag", "Administration", FormMethod.Post))
+{
+    <input type="submit" value="Delete" class="btn btn-primary" />
+}

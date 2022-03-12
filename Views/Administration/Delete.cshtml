@@ -1,0 +1,61 @@
+﻿@model Article
+
+@{
+    ViewData["Title"] = "Delete Article";
+}
+
+<style>
+    .header-h1 {
+        position: relative;
+        margin-bottom: .5rem;
+    }
+
+        .header-h1 h1 {
+            font-size: 1.5rem;
+            margin-bottom: 0;
+            padding-left: 3rem;
+            color: #0000FF;
+        }
+
+            .header-h1 h1::before {
+                content: "";
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 2.25rem;
+                height: 2.25rem;
+                background: #0000FF;
+            }
+
+            .header-h1 h1::after {
+                content: "";
+                position: absolute;
+                left: 0;
+                top: 2rem;
+                width: 100%;
+                height: .25rem;
+                background-color: #0000FF;
+            }
+</style>
+
+<div class="header-h1">
+    <h1>@Model.Title</h1>
+    <br />
+    <p class="card-subtitle mb-2 text-muted">@Model.Description</p>
+    <br />
+    <p class="card-text">@Model.Content</p>
+    <label>Date of publication:</label>
+    <p>@Model.DateTime</p>
+    <h3>
+        Are you sure you need to delete an article?
+    </h3>
+    <div>
+        <a href="@Url.Action("Index","Administration")" class="btn btn-primary">No</a>
+        <br/>
+        <br/>
+        @using (Html.BeginForm("Delete", "Administration", FormMethod.Post))
+        {
+            <input type="submit" value="Yes" class="btn btn-primary" />
+        }
+    </div>
+</div>
