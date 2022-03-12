@@ -25,7 +25,7 @@ namespace Blog.Controllers
         }
         public async Task<IActionResult> Index(int? category, DateTime? dateFrom, DateTime? dateTo, List<int> tagIds, int page = 1)
         {
-            int pageSize = 2;   //количество элементов на странице
+            int pageSize = 2;
 
             IQueryable<Article> articles = db.Articles
                 .Include(x => x.Category)

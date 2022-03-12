@@ -29,14 +29,11 @@ namespace Blog.TagHelpers
             IUrlHelper urlHelper = urlHelperFactory.GetUrlHelper(ViewContext);
             output.TagName = "div";
 
-            // набор ссылок будет представлять список ul
             TagBuilder tag = new TagBuilder("ul");
             tag.AddCssClass("pagination justify-content-center");
 
-            // формируем три ссылки - на текущую, предыдущую и следующую
             TagBuilder currentItem = CreateTag(PageModel.PageNumber, urlHelper);
 
-            // создаем ссылку на предыдущую страницу, если она есть
             if (PageModel.HasPreviousPage)
             {
                 TagBuilder prevItem = CreateTag(PageModel.PageNumber - 1, urlHelper);
@@ -44,7 +41,7 @@ namespace Blog.TagHelpers
             }
 
             tag.InnerHtml.AppendHtml(currentItem);
-            // создаем ссылку на следующую страницу, если она есть
+            
             if (PageModel.HasNextPage)
             {
                 TagBuilder nextItem = CreateTag(PageModel.PageNumber + 1, urlHelper);

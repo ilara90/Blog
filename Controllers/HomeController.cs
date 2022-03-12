@@ -27,7 +27,7 @@ namespace Blog.Controllers
                 return RedirectToAction("Index", "Administration");
             }
 
-            int pageSize = 2;   //количество элементов на странице
+            int pageSize = 2;
 
             IQueryable<Article> articles = db.Articles
                 .Include(x => x.Category)
