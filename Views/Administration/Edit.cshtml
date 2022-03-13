@@ -5,31 +5,43 @@
     ViewData["Title"] = "Edit Article";
 }
 
-<form asp-action="Edit" asp-controller="Administration" method="post" enctype="multipart/form-data">
+<form asp-antiforgery="true" asp-action="Edit" asp-controller="Administration" method="post" enctype="multipart/form-data">
     @Html.HiddenFor(x => x.DateTime)
     <b>
         <label for="title">Name article</label>
     </b>
     <br />
-    <input type="text" class="form-control" name="title" value="@Model.Title">
+    <input type="text" class="form-control" asp-for="Title" value="@Model.Title">
+    <b>
+        <span asp-validation-for="Title"></span>
+    </b>
     <br />
     <b>
         <label for="title">Short Description article</label>
     </b>
     <br />
-    <textarea rows="2" cols="20" placeholder="Short Description article (max length 250 symbol)" name="description" maxlength="250" class="form-control">@Model.Description</textarea>
+    <textarea rows="2" cols="20" placeholder="Short Description article (max length 250 symbol)" asp-for="Description" maxlength="250" class="form-control">@Model.Description</textarea>
+    <b>
+        <span asp-validation-for="Description"></span>
+    </b>
     <br />
     <b>
         <label for="title">Text article</label>
     </b>
     <br />
-    <textarea rows="15" cols="20" placeholder="Text article" name="content" class="form-control">@Model.Content</textarea>
+    <textarea rows="15" cols="20" placeholder="Text article" asp-for="Content" class="form-control">@Model.Content</textarea>
+    <b>
+        <span asp-validation-for="Content"></span>
+    </b>
     <br />
     <b>
         <label for="title">Select a category</label>
     </b>
     <br />
     @Html.DropDownListFor(x => x.CategoryId, Model.Categories)
+    <b>
+        <span asp-validation-for="CategoryId"></span>
+    </b>
     <br />
     <b>
         <label for="title">Select a tag</label>
@@ -45,3 +57,8 @@
     <br />
     <input type="submit" value="Save" class="btn btn-primary" />
 </form>
+
+@section scripts{
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}

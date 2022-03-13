@@ -32,4 +32,4 @@
 Использовались следующие технологии:
 Back-end: ASP.NET Core MVC
 Databases: MS SQL
-Front-end: Bootstrap
+Front-end: Bootstrap + jQuery

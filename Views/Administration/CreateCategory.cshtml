@@ -1,12 +1,22 @@
-﻿@{
+﻿@model Blog.Models.Category
+
+@{
     ViewData["Title"] = "Create Category";
 }
 
-@using (Html.BeginForm("CreateCategory", "Administration", FormMethod.Post))
-{
+<form asp-antiforgery="true" asp-action="CreateCategory" asp-controller="Administration">
+    <div class="validation" asp-validation-summary="ModelOnly"></div>
     <label for="title">Name category</label>
     <br />
     <input type="text" class="form-control" name="title" placeholder="Name category">
+    <b>
+        <span asp-validation-for="Title"></span>
+    </b>    
     <br />
     <input type="submit" value="Add" class="btn btn-primary" />
+</form>
+
+@section scripts{ 
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
 }

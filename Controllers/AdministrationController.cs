@@ -110,13 +110,36 @@ namespace Blog.Controllers
                 article.Image = imageData;
             }
 
-            article.DateTime = DateTime.Now;
-            db.Articles.Add(article);
-            await db.SaveChangesAsync();
-            var articlesTagsNew = article.TagIds.Select(x => new ArticlesTags { ArticleId = article.Id, TagId = x });
-            await db.ArticlesTags.AddRangeAsync(articlesTagsNew);
-            await db.SaveChangesAsync();
-            return RedirectToAction("Index");
+            var categories = new SelectList(db.Categories
+                .Where(y => y.IsDeleted == 0)
+                .Select(x => new { x.Id, x.Title }), "Id", "Title");
+
+            var tags = new SelectList(db.Tags
+                .Where(y => y.IsDeleted == 0)
+                .Select(x => new { x.Id, x.Title }), "Id", "Title");
+
+            CreateViewModel viewModel = new CreateViewModel
+            {
+                Categories = categories,
+                Tags = tags,
+                articleModel = article
+            };
+
+            if (ModelState.IsValid)
+            {
+                article.DateTime = DateTime.Now;
+                db.Articles.Add(article);
+                await db.SaveChangesAsync();
+                var articlesTagsNew = article.TagIds.Select(x => new ArticlesTags { ArticleId = article.Id, TagId = x });
+                await db.ArticlesTags.AddRangeAsync(articlesTagsNew);
+                await db.SaveChangesAsync();
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return View(viewModel);
+            }
+                
         }
 
         [HttpGet]
@@ -157,13 +180,36 @@ namespace Blog.Controllers
                 }
                 article.Image = imageData;
             }
-            var articlesTagsToDelete = db.ArticlesTags.Where(x => x.ArticleId == article.Id);
-            db.ArticlesTags.RemoveRange(articlesTagsToDelete);
-            var articlesTagsNew = article.TagIds.Select(x => new ArticlesTags { ArticleId = article.Id, TagId = x });
-            await db.ArticlesTags.AddRangeAsync(articlesTagsNew);
-            db.Articles.Update(article);
-            await db.SaveChangesAsync();
-            return RedirectToAction("Index");
+
+            if (ModelState.IsValid)
+            {
+                var articlesTagsToDelete = db.ArticlesTags.Where(x => x.ArticleId == article.Id);
+                db.ArticlesTags.RemoveRange(articlesTagsToDelete);
+                var articlesTagsNew = article.TagIds.Select(x => new ArticlesTags { ArticleId = article.Id, TagId = x });
+                await db.ArticlesTags.AddRangeAsync(articlesTagsNew);
+                db.Articles.Update(article);
+                await db.SaveChangesAsync();
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                if (article != null)
+                {
+                    var editView = _mapper.Map<EditViewModel>(article);
+
+                    editView.Categories = new SelectList(db.Categories
+                        .Where(x => x.IsDeleted == 0)
+                        .Select(z => new { z.Id, z.Title }), "Id", "Title");
+
+                    editView.Tags = new SelectList(db.Tags
+                    .Where(y => y.IsDeleted == 0)
+                    .Select(x => new { x.Id, x.Title }), "Id", "Title");
+
+                    return View(editView);
+                }
+
+                return NotFound();
+            }                
         }
 
         [HttpGet]
@@ -212,10 +258,17 @@ namespace Blog.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateCategory(Category category)
         {
-            category.IsDeleted = 0;
-            db.Categories.Add(category);
-            await db.SaveChangesAsync();
-            return RedirectToAction("ActionCategories");
+            if (ModelState.IsValid)
+            {
+                category.IsDeleted = 0;
+                db.Categories.Add(category);
+                await db.SaveChangesAsync();
+                return RedirectToAction("ActionCategories");
+            }
+            else
+            {
+                return View(category);
+            }
         }
 
         [HttpGet]
@@ -263,15 +316,17 @@ namespace Blog.Controllers
         [HttpPost]
         public async Task<IActionResult> EditCategory(Category category)
         {
-            if (category != null)
+            if (category != null && ModelState.IsValid)
             {
                 category.IsDeleted = 0;
                 db.Categories.Update(category);
                 await db.SaveChangesAsync();
                 return RedirectToAction("ActionCategories");
             }
-
-            return NotFound();
+            else
+            {
+                return View(category);
+            }
         }
 
         public IActionResult ActionTags()
@@ -319,10 +374,17 @@ namespace Blog.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateTag(Tag tag)
         {
-            tag.IsDeleted = 0;
-            db.Tags.Add(tag);
-            await db.SaveChangesAsync();
-            return RedirectToAction("ActionTags");
+            if (ModelState.IsValid)
+            {
+                tag.IsDeleted = 0;
+                db.Tags.Add(tag);
+                await db.SaveChangesAsync();
+                return RedirectToAction("ActionTags");
+            }
+            else
+            {
+                return View(tag);
+            }
         }
     }
 }
