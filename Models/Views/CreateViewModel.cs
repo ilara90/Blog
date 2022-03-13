@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Blog.Models.Views
-{
+{    
     public class CreateViewModel
     {
         public SelectList Categories { get; set; }

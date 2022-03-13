@@ -153,9 +153,9 @@ GO
    CREATE TABLE Articles (
      Id INT IDENTITY(1,1) NOT NULL CONSTRAINT Article_Id PRIMARY KEY,
      Title Nvarchar(50) NOT NULL,
-     Description Nvarchar(250) NOT NULL,
+     Description Nvarchar(250) NULL,
      Content Text NOT NULL,
-     CategoryId  INT NULL,
+     CategoryId  INT NOT NULL,
      DATETIME datetime DEFAULT (getdate()),
      FOREIGN KEY (CategoryId) REFERENCES Categories(Id)
    );
