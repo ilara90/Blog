@@ -30,6 +30,6 @@
 Страница конкретной статьи (Article Details) содержит название, текст статьи, картинку (если задана), категорию и теги (если заданы), дату публикации.
 
 Использовались следующие технологии:
-Back-end: ASP.NET Core MVC
-Databases: MS SQL
-Front-end: Bootstrap + jQuery
+- Back-end: ASP.NET Core MVC
+- Databases: MS SQL
+- Front-end: Bootstrap + jQuery
