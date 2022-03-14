@@ -98,8 +98,29 @@ namespace Blog.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(Article article, IFormFile ImageFile)
+        public async Task<IActionResult> Create(Article article, IFormFile? ImageFile)
         {
+            if(!ModelState.IsValid)
+            {
+                var categories = new SelectList(db.Categories
+                .Where(y => y.IsDeleted == 0)
+                .Select(x => new { x.Id, x.Title }), "Id", "Title");
+
+                var tags = new SelectList(db.Tags
+                    .Where(y => y.IsDeleted == 0)
+                    .Select(x => new { x.Id, x.Title }), "Id", "Title");
+
+                CreateViewModel viewModel = new CreateViewModel
+                {
+                    Categories = categories,
+                    Tags = tags                    
+                };
+
+                _mapper.Map(article, viewModel);
+
+                return View(viewModel);
+            }
+
             if (ImageFile != null)
             {
                 byte[] imageData = null;
@@ -108,25 +129,8 @@ namespace Blog.Controllers
                     imageData = binaryReader.ReadBytes((int)ImageFile.Length);
                 }
                 article.Image = imageData;
-            }
+            }            
 
-            var categories = new SelectList(db.Categories
-                .Where(y => y.IsDeleted == 0)
-                .Select(x => new { x.Id, x.Title }), "Id", "Title");
-
-            var tags = new SelectList(db.Tags
-                .Where(y => y.IsDeleted == 0)
-                .Select(x => new { x.Id, x.Title }), "Id", "Title");
-
-            CreateViewModel viewModel = new CreateViewModel
-            {
-                Categories = categories,
-                Tags = tags,
-                articleModel = article
-            };
-
-            if (ModelState.IsValid)
-            {
                 article.DateTime = DateTime.Now;
                 db.Articles.Add(article);
                 await db.SaveChangesAsync();
@@ -134,12 +138,7 @@ namespace Blog.Controllers
                 await db.ArticlesTags.AddRangeAsync(articlesTagsNew);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
-            }
-            else
-            {
-                return View(viewModel);
-            }
-                
+            
         }
 
         [HttpGet]
@@ -169,7 +168,7 @@ namespace Blog.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(Article article, IFormFile ImageFile)
+        public async Task<IActionResult> Edit(Article article, IFormFile? ImageFile)
         {
             if (ImageFile != null)
             {

@@ -6,6 +6,5 @@ namespace Blog.Models.Views
     {
         public SelectList Categories { get; set; }
         public SelectList Tags { get; set; }
-        public List<int> TagIds { get; set; }
     }
 }

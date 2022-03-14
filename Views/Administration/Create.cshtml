@@ -6,25 +6,26 @@
 }
 
 <form asp-antiforgery="true" asp-action="Create" asp-controller="Administration" method="post" enctype="multipart/form-data">
+    <div class="validation" asp-validation-summary="ModelOnly"></div>
     <label>Name article</label>
     <br />
-    <input type="text" class="form-control" asp-for="articleModel.Title" placeholder="Name article">
+    <input type="text" class="form-control" name="Title" placeholder="Name article">
     <b>
-        <span asp-validation-for="articleModel.Title"></span>
+        @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
     </b>    
     <br />
     <label>Short Description article</label>
     <br />
-    <textarea rows="2" cols="20" placeholder="Short Description article (max length 250 symbol)" asp-for="articleModel.Description" maxlength="250" class="form-control"></textarea>
+    <textarea rows="2" cols="20" placeholder="Short Description article (max length 250 symbol)" name="Description" maxlength="250" class="form-control"></textarea>
     <b>
-        <span asp-validation-for="articleModel.Description"></span>
+        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
     </b> 
     <br />
     <label>Text article</label>
     <br />
-    <textarea rows="15" cols="20" placeholder="Text article" asp-for="articleModel.Content" class="form-control"></textarea>
+    <textarea rows="15" cols="20" placeholder="Text article" name="Content" class="form-control"></textarea>
     <b>
-        <span asp-validation-for="articleModel.Content"></span>
+         @Html.ValidationMessageFor(model => model.Content, "", new { @class = "text-danger" })
     </b> 
     <br />
     <label>Select a category</label>

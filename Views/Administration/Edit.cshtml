@@ -11,27 +11,27 @@
         <label for="title">Name article</label>
     </b>
     <br />
-    <input type="text" class="form-control" asp-for="Title" value="@Model.Title">
+    <input type="text" class="form-control" name="Title" value="@Model.Title">
     <b>
-        <span asp-validation-for="Title"></span>
+        @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
     </b>
     <br />
     <b>
         <label for="title">Short Description article</label>
     </b>
     <br />
-    <textarea rows="2" cols="20" placeholder="Short Description article (max length 250 symbol)" asp-for="Description" maxlength="250" class="form-control">@Model.Description</textarea>
+    <textarea rows="2" cols="20" placeholder="Short Description article (max length 250 symbol)" name="Description" maxlength="250" class="form-control">@Model.Description</textarea>
     <b>
-        <span asp-validation-for="Description"></span>
+        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
     </b>
     <br />
     <b>
         <label for="title">Text article</label>
     </b>
     <br />
-    <textarea rows="15" cols="20" placeholder="Text article" asp-for="Content" class="form-control">@Model.Content</textarea>
+    <textarea rows="15" cols="20" placeholder="Text article" name="Content" class="form-control">@Model.Content</textarea>
     <b>
-        <span asp-validation-for="Content"></span>
+        @Html.ValidationMessageFor(model => model.Content, "", new { @class = "text-danger" })
     </b>
     <br />
     <b>
@@ -40,7 +40,7 @@
     <br />
     @Html.DropDownListFor(x => x.CategoryId, Model.Categories)
     <b>
-        <span asp-validation-for="CategoryId"></span>
+        @Html.ValidationMessageFor(model => model.CategoryId, "", new { @class = "text-danger" })
     </b>
     <br />
     <b>
